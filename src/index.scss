@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+$main-color: hsl(30, 48%, 71%);
+$dark-main-color: hsl(32, 33%, 38%);
+$primary-light-color: hsl(34, 100%, 95%);
+$primary-light-text: hsl(0, 1%, 92%);
+$primary-dark-text: #52483b;
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: 'Ubuntu', sans-serif;
+  color-scheme: light dark;
+  color: $primary-dark-text;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: $main-color;
+  min-height: 100vh;
+
+  a {
+    font-weight: 500;
+    color: $main-color;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $dark-main-color;
+  }
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
+}
+
+header{
+  padding: 25px 0;
+  height: 10vh;
+
+  .header-logo{
+    display: block;
+    margin: 0 auto;
+    max-width: 350px;
+    width: 100%;
+  }
+}
