@@ -17,7 +17,8 @@ module.exports = {
             'warn',
             { allowConstantExport: true },
         ],
-        '@typescript-eslint/strict-boolean-expressions': 'warn'
+        '@typescript-eslint/strict-boolean-expressions': 'warn',
+        '@typescript-eslint/no-explicit-any': 'warn',
     },
     parserOptions: {
         ecmaVersion: 'latest',

@@ -1,8 +1,14 @@
-import {Card} from "../../../Components/Card";
+import {Card, CardContent, CardTitle} from "../../../Components/Card";
+import LoginForm from "./Components/LoginForm.tsx";
 
 const MainPage = () => {
 	return <Card>
-		Hello!
+		<CardTitle>
+			<h1>Авторизация</h1>
+		</CardTitle>
+		<CardContent>
+			<LoginForm/>
+		</CardContent>
 	</Card>
 }
 
