@@ -2,7 +2,7 @@ import {Card, CardContent, CardTitle} from "../../../Components/Card";
 import LoginForm from "./Components/LoginForm.tsx";
 
 const MainPage = () => {
-	return <Card>
+	return <Card classes={'login'}>
 		<CardTitle>
 			<h1>Авторизация</h1>
 		</CardTitle>

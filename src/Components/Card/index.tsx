@@ -1,8 +1,8 @@
 import {IChildrenProp} from "../../Interfaces";
 import "./card.scss"
 
-export const Card = ({children}: IChildrenProp) => {
-	return <div className="card">
+export const Card = ({children, classes}: IChildrenProp) => {
+	return <div className={"card" + (classes ? ' ' + classes : '') }>
 		{children}
 	</div>
 }
