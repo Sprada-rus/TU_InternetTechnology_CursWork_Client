@@ -58,6 +58,23 @@ body {
   .full-width {
     width: 100%;
   }
+
+  .error__text {
+    text-align: center;
+  }
+
+  .error__reload {
+    width: min-content;
+    font-size: 3rem;
+    margin: 0 auto;
+
+    > svg {
+      transition: transform .3s ease-in;
+    }
+    > svg:hover {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 header{
