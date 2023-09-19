@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import {devtools} from "zustand/middleware";
 import {stateCallback} from "../../../Interfaces";
-import {immer} from "zustand/middleware/immer";
+import { immer } from "zustand/middleware/immer";
 
 interface AuthorizedStore {
     currentChapter?: string,

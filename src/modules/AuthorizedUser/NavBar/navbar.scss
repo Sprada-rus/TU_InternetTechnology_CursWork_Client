@@ -1,17 +1,33 @@
 @import "src/index";
 
 .navbar {
+  height: fit-content;
+
   .navbar__btn {
     margin-top: 0;
     padding: .2rem .5rem;
   }
 
   .navbar__body {
+    transition: background-color .2s linear, height .2s linear;
     overflow: hidden;
     height: 0;
-    transition: background-color .2s linear;
+    width: 0;
 
+    // Для компьютеров и планшетов
     &.open {
+      position: absolute;
+      height: fit-content;
+      width: 15rem;
+      left: -1.5rem;
+      top: 2rem;
+      background-color: $primary-light-color;
+      border-radius: 1rem;
+      border: 1px solid $main-color;
+    }
+
+    // Для мобильных устройств
+    &.mobile.open {
       position: fixed;
       top: 0;
       left: 0;
@@ -24,7 +40,7 @@
       flex-direction: column;
     }
 
-    .mobile-close {
+    &.mobile .mobile-close {
       align-self: flex-end;
       margin-top: 2rem;
       margin-right: 2rem;
@@ -41,18 +57,47 @@
   }
 }
 
-
 .navbar-list {
   list-style-type: none;
+
+  .navbar-list__items {
+    height: 0;
+    cursor: pointer;
+    transition: background-color .2s linear;
+    padding: .5rem .2rem;
+  }
+
+  .navbar-list__items:hover {
+    background-color: $primary-light-text;
+  }
+}
+
+
+.navbar__body .navbar-list {
+  margin: 0;
+  width: 0;
+  height: 0;
+}
+
+.navbar__body.open .navbar-list {
+  height: 100%;
+  width: 100%;
+  padding: .5rem;
+
+  .navbar-list__items {
+    height: auto;
+  }
+}
+
+.navbar__body.open.mobile .navbar-list {
   max-width: 70vw;
   margin-top: 3rem;
+  padding: .5rem 1rem;
   width: 100%;
   background-color: $primary-light-color;
   border-radius: .5rem;
-  padding: .5rem 1rem;
 
   .navbar-list__items {
-    margin-top: 1rem;
     z-index: 10;
 
     &.load {

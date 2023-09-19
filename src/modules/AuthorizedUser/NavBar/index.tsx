@@ -2,6 +2,7 @@ import {Suspense, useState} from "react";
 import {HiOutlineMenu} from "react-icons/hi";
 import "./navbar.scss"
 import {GrClose} from "react-icons/gr";
+import useAppStore from "../../../appStore.ts";
 
 const LoadNavItems = () => {
     return <ul className={"navbar-list"}>
@@ -29,15 +30,16 @@ interface INavBar {
 
 const NavBar = (props: INavBar) => {
     const [open, setOpen] = useState<boolean>(false);
+    const {isMobile} = useAppStore();
 
     return <div className={"navbar"}>
         <button onClick={() => setOpen((prevState) => !prevState)} className={"btn-primary navbar__btn"}>
             <HiOutlineMenu/>
         </button>
-        <nav className={"navbar__body" + (open ? ' open' : '')}>
-            <button className="mobile-close" onClick={() => setOpen(false)}>
+        <nav className={"navbar__body" + (open ? ' open' : '') + (isMobile ? ' mobile' : '')}>
+            {isMobile && <button className="mobile-close" onClick={() => setOpen(false)}>
                 <GrClose/>
-            </button>
+            </button>}
             <Suspense fallback={<LoadNavItems/>}>
                 <ul className={"navbar-list"}>
                     {props.navItems.map((item, index) => (

@@ -6,7 +6,7 @@ interface AppStore {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
-    checkDisplayView: (viewSize: number) => void;
+    checkDisplayView: (e: UIEvent) => any;
 }
 
 const useAppStore = create<AppStore>()(
@@ -16,7 +16,10 @@ const useAppStore = create<AppStore>()(
                 isMobile: false,
                 isTablet: false,
                 isDesktop: false,
-                checkDisplayView: (viewSize) => {
+                checkDisplayView: (ev: UIEvent) => {
+                    const windowElement = ev.target as Window;
+                    const viewSize = windowElement.innerWidth;
+
                     const breakPoints = {
                         isMobile: false,
                         isTablet: false,
