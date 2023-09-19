@@ -1,29 +1,35 @@
 import {Card, CardContent} from "../../../Components/Card";
-import NavBar from "../NavBar";
+import NavBar from "../Components/NavBar";
 import "./account.scss"
+import {useCallback, useState} from "react";
 
 const testNavItems = [
     {
         name: 'Студенты',
-        to: '/'
+        to: 'students'
     },
     {
         name: 'Преподаватели',
-        to: '/'
+        to: 'teachers'
     },
     {
         name: 'Предменты',
-        to: '/'
+        to: 'subjects'
     },
 ]
 
 const AccountPage = () => {
+    const [activeChapter, setActiveChapter] = useState<string>('')
+    const chooseHandler = useCallback((chapter: string) => {
+            setActiveChapter(chapter);
+    }, [setActiveChapter])
+
     return <Card>
         <CardContent>
             <div className={"main-block"}>
-                <NavBar  navItems={testNavItems}/>
+                <NavBar navItems={testNavItems} chooseHandler={chooseHandler}/>
                 <div className="main-block__content">
-                    asdasdasd
+                    {activeChapter}
                 </div>
             </div>
         </CardContent>
