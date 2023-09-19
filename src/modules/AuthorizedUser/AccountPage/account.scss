@@ -1,0 +1,9 @@
+.main-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .main-block__content {
+    margin-top: 1rem;
+  }
+}
