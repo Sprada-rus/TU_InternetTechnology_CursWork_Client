@@ -1,11 +1,15 @@
-interface NavItemProps {
-	name: string
+export interface INavItem {
+	name: string,
 	to: string
-	clickHandler: (value: string) => void
 }
 
-const NavItem = ({name, to, clickHandler}: NavItemProps) => {
-	return <li className={"navbar-list__items"} onClick={() => clickHandler(to)}>{name}</li>
+interface NavItemProps {
+	item: INavItem
+	clickHandler: (value: INavItem) => void
+}
+
+const NavItem = ({item, clickHandler}: NavItemProps) => {
+	return <li className={"navbar-list__items"} onClick={() => clickHandler(item)}>{item.name}</li>
 }
 
 export default NavItem;

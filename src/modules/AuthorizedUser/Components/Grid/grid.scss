@@ -1,0 +1,24 @@
+@import "../../../../index";
+
+.grid-content {
+  .grid-content__table {
+    width: 100%;
+  }
+
+  .grid-content__head-column {
+    border-bottom: 2px solid $main-color;
+  }
+
+  .grid-content__row {
+    cursor: pointer;
+    transition: background-color .2s linear;
+
+    &:hover {
+      background-color: hsl(0, 0%, 0%, .2);
+    }
+  }
+
+  .grid-content__column {
+    border-bottom: 1px solid $main-color;
+  }
+}

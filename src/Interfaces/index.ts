@@ -5,7 +5,7 @@ export interface IChildrenProp {
 	classes?: string
 }
 
-export type stringIndex <T extends keyof any> = {
+export type stringIndex <T> = {
 	[P in string]: T
 }
 

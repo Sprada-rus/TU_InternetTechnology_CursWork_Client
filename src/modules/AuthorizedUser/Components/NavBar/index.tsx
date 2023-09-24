@@ -3,7 +3,7 @@ import {HiOutlineMenu} from "react-icons/hi";
 import "./navbar.scss"
 import {GrClose} from "react-icons/gr";
 import useAppStore from "../../../../appStore.ts";
-import NavItem from "./NavItem";
+import NavItem, {INavItem} from "./NavItem";
 
 const LoadNavItems = () => {
     return <ul className={"navbar-list"}>
@@ -20,14 +20,9 @@ const LoadNavItems = () => {
     </ul>
 }
 
-interface INavItems {
-    name: string,
-    to: string
-}
-
 interface INavBar {
-    navItems: INavItems[],
-    chooseHandler: (chapter: string) => void
+    navItems: INavItem[],
+    chooseHandler: (chapter: INavItem) => void
 }
 
 const NavBar = (props: INavBar) => {
@@ -45,8 +40,8 @@ const NavBar = (props: INavBar) => {
             <Suspense fallback={<LoadNavItems/>}>
                 <ul className={"navbar-list"}>
                     {props.navItems.map((item, index) => (
-                        <NavItem name={item.name} to={item.to} clickHandler={(chapter) => {
-                            props.chooseHandler(chapter);
+                        <NavItem item={item} clickHandler={(item: INavItem) => {
+                            props.chooseHandler(item);
                             setOpen(false)
                         }} key={`${item.to}_${index}`}/>
                     ))}
