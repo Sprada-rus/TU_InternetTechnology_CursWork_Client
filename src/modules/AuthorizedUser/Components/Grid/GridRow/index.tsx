@@ -21,9 +21,7 @@ const GridRow = ({children, clickHandler, objectId, contextHandler}: GridRowProp
 			}}
 			onContextMenu={(e) => {
 				e.preventDefault();
-				const element = e.target as HTMLTableRowElement;
-				const position = element.getBoundingClientRect();
-				console.log(position, )
+
 				contextHandler && contextHandler(objectId, e.pageX, e.pageY);
 			}}
 		>

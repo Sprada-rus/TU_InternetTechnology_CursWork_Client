@@ -1,3 +1,18 @@
+@import "../../../index";
+
+.exit-block {
+  text-align: right;
+
+  button {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: transparent;
+    color: $main-color;
+    border: 1px solid $main-color;
+    font-weight: 700;
+  }
+}
+
 .main-block {
   position: relative;
   display: flex;

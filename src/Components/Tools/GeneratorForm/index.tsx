@@ -1,9 +1,11 @@
 import {stateCallback, stringIndex} from "../../../Interfaces";
-import {lazy, useEffect, useMemo} from "react";
+import {lazy, Suspense, useCallback, useEffect, useMemo} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 const TextInput = lazy(() => import('./Fields/TextInput'));
 const PasswordInput = lazy(() => import('./Fields/PasswordField'));
+const SelectField = lazy(() => import('./Fields/SelectField'));
 import "./form.scss";
+import Loading from "../../Loading";
 
 export interface FormFieldData{
     name: string,
@@ -16,6 +18,7 @@ export interface FormFieldData{
     description?: string,
     disabled?: boolean,
     hidden?: boolean
+    source?: string
 }
 
 /**
@@ -42,6 +45,17 @@ const FieldWrapper = (props: FormFieldData) => {
                 required={props.required}
                 minLength={props.minLength}
                 maxLength={props.maxLength}
+            />
+        case 'select':
+            return <SelectField
+                name={props.name}
+                type={props.type}
+                label={props.label}
+                required={props.required}
+                disabled={props.disabled}
+                hidden={props.hidden}
+                description={props.description}
+                source={props.source}
             />
         default:
             return <></>;
@@ -72,10 +86,14 @@ const GeneratorForm = (props: IGeneratorForm) => {
         validStateCallback, submittingStateCallback
     } = props;
 
-    const fields = useMemo(() => {
-        return formFieldsData
-            .sort((a, b) => a.order - b.order)
-            .map((field) => <FieldWrapper {...field} key={`${formName}_${field.name}`}/>);
+    const Fields = useMemo(() => {
+        return <Suspense fallback={<Loading/>}>
+            {
+                formFieldsData
+                .sort((a, b) => a.order - b.order)
+                .map((field) => <FieldWrapper {...field} key={`${formName}_${field.name}`}/>)
+            }
+        </Suspense>
     }, [formFieldsData]);
 
     const methods = useForm({
@@ -114,12 +132,20 @@ const GeneratorForm = (props: IGeneratorForm) => {
         }
     }, [submittingStateCallback, isSubmitting]);
 
+    const submitHandler = useCallback((value: stringIndex<any>) => {
+             onSubmit(value).catch(e => {
+                 console.error(e);
+             });
+    }, [onSubmit])
+
     return (
         <FormProvider {...methods}>
-            <form id={formName} className={"form"} onSubmit={() => handleSubmit((value) => {
-                onSubmit(value).catch((e:string) => console.error(e)).finally();
-            })}>
-                {fields}
+            <form
+                id={formName}
+                className={"form"}
+                onSubmit={(event) => void handleSubmit(submitHandler)(event)}
+            >
+                {Fields}
             </form>
         </FormProvider>
     )

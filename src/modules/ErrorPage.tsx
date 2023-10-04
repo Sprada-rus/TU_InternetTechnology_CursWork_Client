@@ -10,7 +10,7 @@ const ErrorPage = () => {
             <CardContent>
                 <h3 className={"error__text"}>Произошла ошибка. Попробуйте обновить страницу позже.</h3>
                 <div className={"error__reload"} onClick={() => {
-                    navigate('/')
+                    navigate('/', {replace: true})
                 }}>
                     <FaRotate/>
                 </div>

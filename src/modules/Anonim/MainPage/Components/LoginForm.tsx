@@ -1,6 +1,10 @@
 import GeneratorForm, {FormFieldData} from "../../../../Components/Tools/GeneratorForm";
-import {Suspense, useCallback, useState} from "react";
-import {stringIndex} from "../../../../Interfaces";
+import {useCallback, useEffect, useState} from "react";
+import {MainOptionsResponse, stringIndex} from "../../../../Interfaces";
+import Service from "../../../../Tools/Service";
+import {getFingerprint} from "../../../../Tools/Other";
+import {useNavigate} from "react-router-dom";
+import {useAuthorizedStore} from "../../../AuthorizedUser/AccountPage/store.ts";
 
 const LoginFields: FormFieldData[] = [
     {
@@ -19,19 +23,60 @@ const LoginFields: FormFieldData[] = [
     }
 ];
 
+interface LoginFormResponse extends MainOptionsResponse{
+    token?: string
+}
+
 const LoginForm = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isValid, setIsValid] = useState<boolean>(false);
-    const submitHandler = useCallback(async (value: stringIndex<any>) => {
-        const resolveValue =  await new Promise((resolve) => {
-            resolve(value);
-        })
+	const [errorMessage, setErrorMessage] = useState<string>('');
+    const navigation = useNavigate();
+    const {setToken} = useAuthorizedStore();
 
-        console.log(resolveValue);
+    const submitHandler = useCallback(async (value: stringIndex<any>) => {
+        try {
+            const fingerprint = await getFingerprint();
+			const service = Service({
+				hostName: import.meta.env.VITE_SERVICE_HOST as string,
+                fingerprint: fingerprint
+			})
+
+            const resolveValue: LoginFormResponse = await service.post('/api/authorization/token', {
+                login: value.login as string,
+                password: value.password as string
+            });
+
+            if (resolveValue.token) {
+                setToken(resolveValue.token);
+                navigation('/');
+            }
+
+        } catch (e) {
+
+            if (typeof e === 'object') {
+                const error = e as stringIndex<any>;
+
+				console.error(error);
+
+                if (error.errorMessage === 'login or password incorrect') {
+					setErrorMessage('Неверный логин или пароль');
+                }
+            } else {
+                setErrorMessage('Произошла ошибка, просьба обратиться к администратору');
+            }
+
+		} finally {
+            setIsSubmitting(false);
+		}
     }, []);
 
+	useEffect(() => {
+        setErrorMessage('');
+	}, [isValid]);
+
     return (
-        <Suspense>
+        <>
             <GeneratorForm
                 formFieldsData={LoginFields}
                 onSubmit={submitHandler}
@@ -39,6 +84,9 @@ const LoginForm = () => {
                 submittingStateCallback={setIsSubmitting}
                 validStateCallback={setIsValid}
             />
+			{errorMessage && <div className="info info-error">
+				{errorMessage}
+            </div>}
             <button
                 type={"submit"}
                 form={"login-form"}
@@ -47,7 +95,8 @@ const LoginForm = () => {
             >
                 Войти
             </button>
-        </Suspense>
+
+        </>
     )
 }
 

@@ -12,3 +12,7 @@ export interface ITextField extends IFieldType {
     minLength?: number,
     maxLength?: number
 }
+
+export interface ISelectFields extends IFieldType {
+    source?: string
+}

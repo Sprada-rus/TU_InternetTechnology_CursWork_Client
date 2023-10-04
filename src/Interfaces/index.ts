@@ -10,3 +10,8 @@ export type stringIndex <T> = {
 }
 
 export type stateCallback <T> = (value: T) => void|T;
+
+export interface MainOptionsResponse {
+	error?: string,
+	errorMessage?: string
+}
