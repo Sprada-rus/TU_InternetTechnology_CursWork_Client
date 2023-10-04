@@ -1,0 +1,19 @@
+.loading {
+  width: 100%;
+
+  .loading__component svg{
+    animation: rotate .5s infinite;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

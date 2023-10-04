@@ -1,0 +1,30 @@
+@import "../../../index";
+
+.action-modal-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: hsla(0, 0%, 0%, .25);
+
+  .action-modal-window__content {
+    max-width: 80%;
+    margin: 10rem auto;
+    background-color: $primary-light-text;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    .close-btn {
+      position: relative;
+
+      button {
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+}
