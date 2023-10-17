@@ -1,12 +1,17 @@
 @import "../../../../index";
 
 .grid-content {
+  padding-bottom: 1rem;
+  overflow-x: auto;
+
   .grid-content__table {
     width: 100%;
+    overflow: hidden;
   }
 
   .grid-content__head-column {
     border-bottom: 2px solid $main-color;
+    padding: .5rem;
   }
 
   .grid-content__row {
@@ -20,5 +25,7 @@
 
   .grid-content__column {
     border-bottom: 1px solid $main-color;
+    padding: .5rem;
+    text-align: center;
   }
 }

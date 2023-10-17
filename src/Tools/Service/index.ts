@@ -6,6 +6,13 @@ interface ServiceOptions {
 	fingerprint?: string
 }
 
+export interface IService {
+	get: <Type>(pathName: string) => Promise<Type>,
+	post: <Type>(pathName: string, data:stringIndex<any>) => Promise<Type>,
+	delete: <Type>(pathName: string) => Promise<Type>,
+	fingerprint?: string
+}
+
 const Service = ( options: ServiceOptions) => {
 	const hostName = options.hostName;
 	const fingerPrint = options.fingerprint;
@@ -34,8 +41,8 @@ const Service = ( options: ServiceOptions) => {
 	}
 
 	const sendMethodRequest = async <Type>(url: string, method: string, data?: string, options?: stringIndex<any>): Promise<string|Type> => {
-		const requestOptions = options ?? {}
-		
+		const requestOptions = options ?? {headers: {}}
+
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		requestOptions.headers.Authorization = 'Bearer ' + token;
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -53,6 +60,10 @@ const Service = ( options: ServiceOptions) => {
 
 		if (response.status === 403) {
 			return Promise.reject({error: 'forbidden', errorMessage: result as string} as Type)
+		}
+
+		if (response.status === 404) {
+			return Promise.reject({error: 'not found', errorMessage: result as string} as Type)
 		}
 
 		if (response.status >= 500) {

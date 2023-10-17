@@ -1,5 +1,5 @@
 import {stateCallback, stringIndex} from "../../../Interfaces";
-import {lazy, Suspense, useCallback, useEffect, useMemo} from "react";
+import {lazy, Suspense, useCallback, useEffect, useMemo, useRef} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 const TextInput = lazy(() => import('./Fields/TextInput'));
 const PasswordInput = lazy(() => import('./Fields/PasswordField'));
@@ -35,7 +35,6 @@ const FieldWrapper = (props: FormFieldData) => {
                 required={props.required}
                 minLength={props.minLength}
                 maxLength={props.maxLength}
-
             />
         case 'password':
             return <PasswordInput
@@ -85,6 +84,7 @@ const GeneratorForm = (props: IGeneratorForm) => {
         onSubmit, formFieldsData, watchCallback, formName, defaultValues,
         validStateCallback, submittingStateCallback
     } = props;
+    const formRef = useRef<HTMLFormElement>(null);
 
     const Fields = useMemo(() => {
         return <Suspense fallback={<Loading/>}>
@@ -104,8 +104,12 @@ const GeneratorForm = (props: IGeneratorForm) => {
     const {
         handleSubmit,
         watch,
-        formState: { isValid, isSubmitting }
+        formState: { isValid, isSubmitting, errors }
     } = methods;
+
+    useEffect(() => {
+        console.log(errors);
+    }, [errors]);
 
     useEffect(() => {
         if (watchCallback) {
@@ -144,6 +148,7 @@ const GeneratorForm = (props: IGeneratorForm) => {
                 id={formName}
                 className={"form"}
                 onSubmit={(event) => void handleSubmit(submitHandler)(event)}
+                ref={formRef}
             >
                 {Fields}
             </form>

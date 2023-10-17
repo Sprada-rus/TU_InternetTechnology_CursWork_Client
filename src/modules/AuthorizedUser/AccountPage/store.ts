@@ -3,6 +3,7 @@ import {devtools} from "zustand/middleware";
 import {stateCallback} from "../../../Interfaces";
 import { immer } from "zustand/middleware/immer";
 import Cookies from "universal-cookie";
+import {IService} from "../../../Tools/Service";
 
 const cookies = new Cookies();
 
@@ -10,7 +11,9 @@ interface AuthorizedStore {
     currentChapter?: string,
     setCurrentChapter: stateCallback<string>,
     token: string,
-    setToken: stateCallback<string>
+    setToken: stateCallback<string>,
+    service?: IService,
+    setService: (service: IService) => void
 }
 
 export const useAuthorizedStore = create<AuthorizedStore>()(
@@ -29,6 +32,9 @@ export const useAuthorizedStore = create<AuthorizedStore>()(
                         }
 
                         set(state => ({...state, token: value}));
+                    },
+                    setService: (service) => {
+                        set(state => ({...state, service}))
                     }
                 }
             )

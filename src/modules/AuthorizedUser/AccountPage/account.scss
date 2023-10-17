@@ -10,6 +10,11 @@
     color: $main-color;
     border: 1px solid $main-color;
     font-weight: 700;
+    transition: background-color .2s linear;
+  }
+
+  button:hover {
+    background-color: hsla(20, 33%, 85%, .7);
   }
 }
 
@@ -21,4 +26,18 @@
   .main-block__content {
     margin-top: 1rem;
   }
+}
+
+.create-btn {
+  padding: .5rem 1rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: $dark-main-color;
+  transition: background-color .2s linear;
+}
+
+.create-btn:hover {
+  background-color: hsla(30, 50%, 51%, .7);
 }

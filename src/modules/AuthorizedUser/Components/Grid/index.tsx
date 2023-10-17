@@ -14,12 +14,12 @@ interface GridProps {
 	contextMenuItem?: ContextMenuItemProps[]
 }
 
-interface HeadItemProps {
+export interface HeadItemProps {
 	name: string,
 	order: number
 }
 
-interface GridDataProps {
+export interface GridDataProps {
 	headers: stringIndex<HeadItemProps>,
 	rows: stringIndex<any>[]
 }
