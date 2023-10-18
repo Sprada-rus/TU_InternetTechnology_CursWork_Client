@@ -21,7 +21,6 @@ const GridRow = ({children, clickHandler, objectId, contextHandler}: GridRowProp
 			}}
 			onContextMenu={(e) => {
 				e.preventDefault();
-
 				contextHandler && contextHandler(objectId, e.pageX, e.pageY);
 			}}
 		>

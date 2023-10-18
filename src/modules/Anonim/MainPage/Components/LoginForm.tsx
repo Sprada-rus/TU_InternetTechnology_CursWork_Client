@@ -61,9 +61,9 @@ const LoginForm = () => {
 
                 if (error.errorMessage === 'login or password incorrect') {
 					setErrorMessage('Неверный логин или пароль');
+                } else {
+                    setErrorMessage('Произошла ошибка, просьба обратиться к администратору');
                 }
-            } else {
-                setErrorMessage('Произошла ошибка, просьба обратиться к администратору');
             }
 
 		} finally {

@@ -11,75 +11,9 @@ import Service from "../../../Tools/Service";
 import {useAuthorizedStore} from "./store.ts";
 import Loading from "../../../Components/Loading";
 import {stringIndex} from "../../../Interfaces";
+import {HiOutlineMenu} from "react-icons/hi";
 const ObjectCard = lazy(() => import('../ActionsComponents/ObjectCard.tsx'));
 const DeleteAction = lazy(() => import('../ActionsComponents/DeleteAction'));
-
-// const testNavItems = [
-//     {
-//         name: 'Студенты',
-//         to: 'students'
-//     },
-//     {
-//         name: 'Преподаватели',
-//         to: 'teachers'
-//     },
-//     {
-//         name: 'Предменты',
-//         to: 'subjects'
-//     },
-// ]
-
-// const testGridData = {
-//     headers: {
-//         obj_id: {
-//             name: 'ID объекта',
-//             order: 0
-//         },
-//         full_name: {
-//             name: 'ФИО',
-//             order: 10
-//         },
-//         group: {
-//             name: 'Группа',
-//             order: 20
-//         },
-//         course: {
-//             name: 'Курс',
-//             order: 20
-//         },
-//     },
-//     rows: [
-//         {
-//             obj_id: 1,
-//             full_name: 'Иванов Иван Иванович',
-//             group: '1448',
-//             course: '8'
-//         },
-//         {
-//             obj_id: 2,
-//             full_name: 'Сергеев Сергей Сергеевич',
-//             group: '1448',
-//             course: '8'
-//         },
-//         {
-//             obj_id: 3,
-//             full_name: 'Антонов Антон Антонович',
-//             group: '1449',
-//             course: '9'
-//         }
-//     ]
-// }
-
-// const testContextMenu: ContextMenuItemProps[] = [
-//     {
-//         name: 'change',
-//         label: 'Изменить',
-//     },
-//     {
-//         name: 'delete',
-//         label: 'Удалить'
-//     }
-// ]
 
 const AccountPage = () => {
     const [activeChapter, setActiveChapter] = useState<INavItem|undefined>();
@@ -89,6 +23,7 @@ const AccountPage = () => {
     const [chapters, setChapters] = useState<INavItem[]>();
     const [loading, setLoading] = useState<boolean>(false);
     const [gridData, setGridData] = useState<GridDataProps>();
+    const [hasError, setHasError] = useState<boolean>(false);
     const [actions, setActions] = useState<ContextMenuItemProps[]>([]);
     const navigation = useNavigate();
     const {token, service, setService} = useAuthorizedStore();
@@ -114,8 +49,6 @@ const AccountPage = () => {
             menuItem.actionHandler = (id, typeAction) => {
                 setNameAction(typeAction);
                 setIsOpenModalAction(true);
-
-                console.log('selectObjID', typeAction === 'create' ? undefined : id)
                 setSelectedObjId(() => typeAction === 'create' ? undefined : id);
             }
         }
@@ -144,12 +77,11 @@ const AccountPage = () => {
 
     const getData = useCallback(async (chapter: INavItem) => {
         setLoading(true);
+        setHasError(false);
 
         try {
             const attrs = await service?.get<stringIndex<HeadItemProps>>('/api/user/list-attrs?code=' + chapter.to);
             const data = await service?.get<stringIndex<any>[]>('/api/user/list-data?code=' + chapter.to);
-
-            console.log(attrs, data, Boolean(attrs && data));
 
             if (attrs && data) {
                 setGridData({headers: attrs, rows:data})
@@ -162,6 +94,7 @@ const AccountPage = () => {
             }
         } catch (e) {
             console.error(e);
+            setHasError(true);
         } finally {
             setLoading(false);
         }
@@ -179,13 +112,45 @@ const AccountPage = () => {
             <div className={"main-block"}>
                 {chapters && <NavBar navItems={chapters} chooseHandler={chooseHandler}/>}
                 <div className="main-block__content">
+                    {!activeChapter && <>
+                        <h3>Добро пожаловать в модуль управления данных Технологического института!</h3>
+                        <p>В данном модуле вы можете добавлять, удалять и изменять данные.</p>
+                        <p>Вы можете выбрать слудующие типы данных:</p>
+                        <ul>
+                            <li>Данные группы</li>
+                            <li>Данные курса</li>
+                            <li>Данные специальности</li>
+                            <li>Данные учителей</li>
+                            <li>Данные студентов</li>
+                        </ul>
+                        <p>Для выбора типа обхектов, необходимо нажать на кнопку меню <HiOutlineMenu/> и выбрать из выпадающего списка.</p>
+                        <p><b><i>Если в выпадающем списке нет интересующего вас типа, то просьба обратиться к администратору сайт для предоставления прав.</i></b></p>
+                        <p>Для выхода из модуля, необходимо нажать на кнопку &#34;Выйти&#34; в правом верхнем углу.</p>
+                    </>}
                     {!!activeChapter && <>
                         <h2>{activeChapter.name}</h2>
+                        <p>
+                            Для открытия карточки объекта, можно нажать двойным кликом левой кнопки мыши, по интересующей строке объекта.<br/>
+                            Также можно открыть карточку из контекстного меню, выбрав пункт &#34;Изменить&#34;.
+                        </p>
+                        <p>Открыть контекстное меню можно нажатием правой кнопки мыши по строке объекта.</p>
+                        <p>
+                            Для создания нового объекта необходимо нажать на кнопку &#34;Новая запись&#34; или выбрать, в контекстном меню, одноименный пункт.
+                        </p>
+                        <p>
+                            Для удаления объекта, необходимо выбрать пункт &#34;Удалить&#34;, в контекстном меню.
+                        </p>
+                        <p>
+                            <b><i>Если у вас нет одного из представленных функционала, то обратитесь к администратору.</i></b>
+                        </p>
                     </>}
                     {loading && <>
                         <Loading/>
                     </>}
-                    {!loading && chapters && gridData &&  <>
+                    {!loading && hasError && <div className="info info-error">
+                        Произошла ошибка, обратитесь к администратору.
+                    </div>}
+                    {!loading && !hasError && chapters && gridData &&  <>
                         {hasCreate && <div>
                             <button className={"create-btn"} onClick={() => {
                                 setNameAction('create');
@@ -197,7 +162,6 @@ const AccountPage = () => {
                             name={'test'}
                             data={gridData}
                             doubleClickRowHandler={(id) => {
-                                console.log('double clicked')
                                 setSelectedObjId(id);
                                 setNameAction('edit');
                                 setIsOpenModalAction(true);
@@ -215,10 +179,18 @@ const AccountPage = () => {
                 isOpen={isOpenModalAction}
                 onClose={() => setIsOpenModalAction(false)}
                 afterSubmit={() => {
-                    void getData(activeChapter).finally()
+                    void getData(activeChapter).finally();
                 }}
             />}
-            {nameAction === 'delete' && <DeleteAction/>}
+            {nameAction === 'delete' && activeChapter && selectedObjId && <DeleteAction
+                objId={selectedObjId}
+                typeName={activeChapter.to}
+                isOpen={isOpenModalAction}
+                onClose={() => setIsOpenModalAction(false)}
+                afterSubmit={() => {
+                    void getData(activeChapter).finally();
+                }}
+            />}
         </CardContent>
     </Card>
 }

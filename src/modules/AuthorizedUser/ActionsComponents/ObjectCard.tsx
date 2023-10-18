@@ -5,43 +5,6 @@ import {stringIndex} from "../../../Interfaces";
 import {useAuthorizedStore} from "../AccountPage/store.ts";
 import Loading from "../../../Components/Loading";
 
-// const testAttrFields = [
-// 	{
-// 		name: 'ln_rus',
-// 		label: 'Фамилия',
-// 		type: 'text',
-// 		order: 10,
-// 		required: true,
-// 	},
-// 	{
-// 		name: 'fn_rus',
-// 		label: 'Имя',
-// 		type: 'text',
-// 		order: 20,
-// 		required: true,
-// 	},
-// 	{
-// 		name: 'mn_rus',
-// 		label: 'Отчество',
-// 		type: 'text',
-// 		order: 30,
-// 		required: false,
-// 	},
-// 	{
-// 		name: 'group',
-// 		label: 'Номер группы',
-// 		type: 'select',
-// 		order: 40,
-// 		required: false
-// 	}
-// ]
-//
-// const testDefaultValue = {
-// 	ln_rus: 'Иванов',
-// 	fn_rus: 'Иван',
-// 	mn_rus: 'Иванович',
-// }
-
 interface ObjectCardProps {
 	objId?: number,
 	typeName: string,
@@ -95,7 +58,6 @@ const ObjectCard = ({onClose, afterSubmit, isOpen, typeName, objId, action}: Obj
 	}, [service, getObjectData, isOpen, action]);
 
 	const submitHandler = useCallback(async (value: stringIndex<any>) => {
-		console.log('check');
 		await service?.post(`/api/user/save?code=${typeName}${objId ? '&objId=' + objId : ''}`, value);
 
 		onClose();

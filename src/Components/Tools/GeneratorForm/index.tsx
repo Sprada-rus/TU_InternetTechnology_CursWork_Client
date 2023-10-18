@@ -104,12 +104,8 @@ const GeneratorForm = (props: IGeneratorForm) => {
     const {
         handleSubmit,
         watch,
-        formState: { isValid, isSubmitting, errors }
+        formState: { isValid, isSubmitting }
     } = methods;
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
 
     useEffect(() => {
         if (watchCallback) {

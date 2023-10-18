@@ -51,38 +51,3 @@
   }
 }
 
-.form-item__close-btn,
-.form-item__submit-btn {
-  padding: 1rem;
-  border-radius: 1rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.form-item__close-btn {
-  background-color: transparent;
-  color: $main-color;
-  border: 1px solid $main-color;
-  transition: background-color .2s linear;
-}
-
-.form-item__close-btn:hover {
-  background-color: hsla(30, 33%, 85%, .7);
-}
-
-.form-item__submit-btn {
-  background-color: $dark-main-color;
-  color: $primary-light-text;
-  transition: background-color .2s linear;
-}
-
-.form-item__submit-btn:hover {
-  background-color: hsla(32, 50%, 51%, .7);
-}
-
-.form-item__submit-btn:disabled {
-  background-color: $dark-main-color;
-  opacity: .7;
-  color: $primary-light-text;
-}

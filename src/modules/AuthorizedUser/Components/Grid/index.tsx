@@ -1,4 +1,4 @@
-import {Suspense, useMemo, useState} from "react";
+import {Suspense, useMemo, useRef, useState} from "react";
 import {stringIndex} from "../../../../Interfaces";
 import GridHead from "./GridHead";
 import GridRow from "./GridRow";
@@ -41,6 +41,7 @@ const Grid = ({ data, name: tableName, doubleClickRowHandler, contextMenuItem }:
 	const [isOpenContextMenu, setIsOpenContextMenu] = useState<boolean>(false);
 	const [selectObjID, setSelectObjID] = useState<number>();
 	const [position, setPosition] = useState<Position>({x: 0, y: 0});
+	const menuRef = useRef<HTMLDivElement|null>(null)
 
 	const columns: stringIndex<number> = useMemo(() => {
 		const newColumns: stringIndex<number> = {}
@@ -96,7 +97,6 @@ const Grid = ({ data, name: tableName, doubleClickRowHandler, contextMenuItem }:
 											setSelectObjID(id);
 											setIsOpenContextMenu(true);
 											setPosition(() => ({x, y}));
-											console.log(x, y)
 										}}
 										key={`${rowNum}_${tableName}_id_${objId}`}
 										objectId={objId}
@@ -121,6 +121,7 @@ const Grid = ({ data, name: tableName, doubleClickRowHandler, contextMenuItem }:
 				posX={position.x}
 				posY={position.y}
 				isOpen={isOpenContextMenu}
+                menuRef={menuRef}
 				onClose={() => {
 					setIsOpenContextMenu(false);
 				}}
