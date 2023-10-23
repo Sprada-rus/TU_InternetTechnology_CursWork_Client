@@ -55,20 +55,30 @@ const Service = ( options: ServiceOptions) => {
 			...requestOptions
 		});
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const result: string|Type = await response.json();
+		if (response.status === 400) {
+			return Promise.reject({error: 'invalid request'})
+		}
+
+
+		if ([401].includes(response.status)) {
+			return Promise.reject({error: 'incorrect data'})
+		}
 
 		if (response.status === 403) {
-			return Promise.reject({error: 'forbidden', errorMessage: result as string} as Type)
+			window.location.replace('/logout');
+			return Promise.reject({error: 'forbidden'} as Type);
 		}
 
 		if (response.status === 404) {
-			return Promise.reject({error: 'not found', errorMessage: result as string} as Type)
+			return Promise.reject({error: 'not found'} as Type)
 		}
 
 		if (response.status >= 500) {
-			return Promise.reject({error: 'server error', errorMessage: result as string} as Type)
+			return Promise.reject({error: 'server error'} as Type)
 		}
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const result: string|Type = await response.json();
 
 		return result;
 	}

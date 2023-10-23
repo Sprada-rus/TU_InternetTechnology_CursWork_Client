@@ -59,7 +59,7 @@ const LoginForm = () => {
 
 				console.error(error);
 
-                if (error.errorMessage === 'login or password incorrect') {
+                if (error.error === 'incorrect data') {
 					setErrorMessage('Неверный логин или пароль');
                 } else {
                     setErrorMessage('Произошла ошибка, просьба обратиться к администратору');
