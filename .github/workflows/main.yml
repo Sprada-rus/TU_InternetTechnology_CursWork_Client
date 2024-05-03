@@ -8,17 +8,17 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    environment: production
+    environment: HOST
     steps:
     - uses: actions/checkout@v1
 
     - name: Deploy to server
       uses: appleboy/scp-action@master
       env:
-        HOST: ${{ HOST }}
-        USERNAME: ${{ USERNAME }}
-        PORT: ${{ PORT }}
-        KEY: ${{ SSHKEY }}
+        HOST: ${{ var.HOST }}
+        USERNAME: ${{ var.USERNAME }}
+        PORT: ${{ var.PORT }}
+        KEY: ${{ var.SSHKEY }}
       with:
         source: "."
         target: "/var/www/app"
@@ -26,26 +26,26 @@ jobs:
     - name: build app
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ HOST }}
-        USERNAME: ${{ USERNAME }}
-        PORT: ${{ PORT }}
-        KEY: ${{ SSHKEY }}
+        host: ${{ var.HOST }}
+        USERNAME: ${{ var.USERNAME }}
+        PORT: ${{ var.PORT }}
+        KEY: ${{ var.SSHKEY }}
         script: "cd /var/www/app && yarn && yarn build"
         
     - name: move app
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ HOST }}
-        USERNAME: ${{ USERNAME }}
-        PORT: ${{ PORT }}
-        KEY: ${{ SSHKEY }}
+        host: ${{ var.HOST }}
+        USERNAME: ${{ var.USERNAME }}
+        PORT: ${{ var.PORT }}
+        KEY: ${{ var.SSHKEY }}
         script: "mv -f /var/www/app/build/* /var/www/curswork"
 
     - name: remove garbadge
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ HOST }}
-        USERNAME: ${{ USERNAME }}
-        PORT: ${{ PORT }}
-        KEY: ${{ SSHKEY }}
+        host: ${{ var.HOST }}
+        USERNAME: ${{ var.USERNAME }}
+        PORT: ${{ var.PORT }}
+        KEY: ${{ var.SSHKEY }}
         script: "rm -f /var/www/app/*"
